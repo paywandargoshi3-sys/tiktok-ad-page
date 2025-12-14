@@ -11,10 +11,15 @@
 </head>
 <body>
     <div>بۆ بەدەستهێنانی هەموو خزمەتگوزاریەکانی ئینتەرنێت سەردانی پەیجی بەهێز ئەکادێمی بکەن لە فەیسبووک</div>
-    <script>
-        let t = 5;
-        Telegram.WebApp.onEvent('beforeClose', e => { if (t > 0) { e.preventDefault(); } });
-        setInterval(() => { t--; if (t <= 0) { Telegram.WebApp.sendData('done'); setTimeout(() => Telegram.WebApp.close(), 500); } }, 1000);
-    </script>
-</body>
-</html>
+ <script>
+    let t = 5;
+    Telegram.WebApp.onEvent('beforeClose', e => { if (t > 0) e.preventDefault(); });
+    const timer = setInterval(() => {
+        t--;
+        if (t <= 0) {
+            clearInterval(timer);
+            Telegram.WebApp.sendData('done');
+            setTimeout(() => Telegram.WebApp.close(), 1000);   // 1 s delay
+        }
+    }, 1000);
+</script>
